@@ -3,13 +3,14 @@
 set -e
 
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
+JOURNAL_DIR="$(dirname "$SCRIPT_DIR")"
 
-JOURNAL_FILE="${SCRIPT_DIR}/journal.age"
+JOURNAL_FILE="${JOURNAL_DIR}/journal.age"
 TEMP_FILE=$(mktemp)
-LOCK_FILE="${SCRIPT_DIR}/journal.lock"
+LOCK_FILE="${JOURNAL_DIR}/journal.lock"
 VIM_INIT_FILE="${SCRIPT_DIR}/init.lua"
 # Generate this file with app-keygen -o key_file && app-keygen -y journal_recipient.txt key_file
-RECIPIENTS_FILE="${SCRIPT_DIR}/public-key.txt"
+RECIPIENTS_FILE="${JOURNAL_DIR}/public-key.txt"
 
 generate_age_key() {
 	# Run age-keygen and capture its output
@@ -17,11 +18,13 @@ generate_age_key() {
 	output=$(age-keygen 2>&1)
 
 	# Extract the public key using grep and sed
-	echo "$output" | grep "public key:" | sed 's/# public key: //' >public-key.txt
+	echo "$output" | grep "public key:" | sed 's/# public key: //' >"$RECIPIENTS_FILE"
 
 	# Extract and display the private key
-	echo "Private key (store this somewhere safe):"
-	echo "$output" | grep "AGE-SECRET-KEY-"
+	echo "Private key (store the string between quotes somewhere safe):"
+	echo
+	echo "\"$(echo "$output" | grep "AGE-SECRET-KEY-")\""
+	echo
 }
 
 cleanup() {
