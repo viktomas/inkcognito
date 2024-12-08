@@ -67,6 +67,14 @@ vim.opt.viewdir = ""
 --- }}}
 
 --- UX options {{{
+-- line breaks
+vim.opt.linebreak = true
+vim.opt.breakindent = true
+-- tabs
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.expandtab = true
+-- folding
 vim.opt.foldmethod = "marker"
 vim.opt.foldenable = true
 vim.wo.foldlevel = 0
@@ -75,6 +83,5 @@ vim.cmd([[
   set filetype=markdown
   colorscheme slate
 ]])
-
 
 --- }}}
