@@ -79,6 +79,9 @@ vim.opt.foldmethod = "marker"
 vim.opt.foldenable = true
 vim.wo.foldlevel = 0
 
+-- scrolling
+vim.opt.scrolloff = 5
+
 vim.cmd([[
   set filetype=markdown
   colorscheme slate
